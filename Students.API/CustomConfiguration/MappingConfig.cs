@@ -40,6 +40,11 @@ namespace Students.API.CustomConfiguration
                 config.CreateMap<Subject, SubjectDto>();
                 config.CreateMap<SubjectDto, SubjectResponseDto>();
 
+                config.CreateMap<StudentsSubjectRequestDto, StudentsSubjectDto>();
+                config.CreateMap<StudentsSubjectDto, StudentsSubject>();
+                config.CreateMap<StudentsSubject, StudentsSubjectDto>();
+                config.CreateMap<StudentsSubjectDto, StudentsSubjectResponseDto>();
+
             });
 
             return mappingConfig;

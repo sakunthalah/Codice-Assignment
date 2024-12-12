@@ -38,34 +38,38 @@ public partial class AssignmentDbContext : Microsoft.EntityFrameworkCore.DbConte
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnType("numeric(18, 0)");
+                .HasColumnType("numeric(18, 0)")
+                .HasColumnName("id");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
             entity.Property(e => e.ClassCode)
-               .HasMaxLength(15)
-               .HasColumnName("class_code");
+                .HasMaxLength(10)
+                .HasColumnName("class_code");
             entity.Property(e => e.ClassName)
                 .HasMaxLength(15)
                 .HasColumnName("class_name");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
             entity.Property(e => e.Grade)
                 .HasColumnType("numeric(18, 0)")
                 .HasColumnName("grade");
+            entity.Property(e => e.ModifiedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("modified_by");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("modified_date");
             entity.Property(e => e.TeacherInCharge)
                 .HasColumnType("numeric(18, 0)")
                 .HasColumnName("teacher_in_charge");
-            entity.Property(e => e.Active)
-                .HasColumnType("bit")
-                .HasColumnName("active");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(20)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedDate)
-                 .HasColumnType("smalldatetime")
-                 .HasColumnName("created_date");
-            entity.Property(e => e.ModifiedBy)
-                  .HasMaxLength(20)
-                  .HasColumnName("modified_by");
-            entity.Property(e => e.ModifiedDate)
-                .HasColumnType("smalldatetime")
-                .HasColumnName("modified_date");
+
             entity.HasOne(d => d.TeacherInChargeNavigation).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TeacherInCharge)
                 .HasConstraintName("FK_Class_Teacher");
@@ -77,10 +81,21 @@ public partial class AssignmentDbContext : Microsoft.EntityFrameworkCore.DbConte
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnType("numeric(18, 0)");
+                .HasColumnType("numeric(18, 0)")
+                .HasColumnName("id");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
             entity.Property(e => e.AdmissionDate)
                 .HasColumnType("smalldatetime")
                 .HasColumnName("admission_date");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
             entity.Property(e => e.Dob)
                 .HasColumnType("smalldatetime")
                 .HasColumnName("dob");
@@ -90,33 +105,26 @@ public partial class AssignmentDbContext : Microsoft.EntityFrameworkCore.DbConte
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .HasColumnName("last_name");
+            entity.Property(e => e.ModifiedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("modified_by");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("modified_date");
             entity.Property(e => e.PermenantAddress).HasColumnName("permenant_address");
             entity.Property(e => e.Ssn)
                 .HasMaxLength(10)
                 .HasColumnName("ssn");
-            entity.Property(e => e.Active)
-                .HasColumnType("bit")
-                .HasColumnName("active");
-            entity.Property(e => e.CreatedBy)
-               .HasMaxLength(20)
-               .HasColumnName("created_by");
-            entity.Property(e => e.CreatedDate)
-                 .HasColumnType("smalldatetime")
-                 .HasColumnName("created_date");
-            entity.Property(e => e.ModifiedBy)
-                  .HasMaxLength(20)
-                  .HasColumnName("modified_by");
-            entity.Property(e => e.ModifiedDate)
-                .HasColumnType("smalldatetime")
-                .HasColumnName("modified_date");
         });
 
         modelBuilder.Entity<StudentsSubject>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Students_Subjects");
 
+            entity.Property(e => e.Id)
+                 .ValueGeneratedOnAdd()
+                .HasColumnType("numeric(18, 0)")
+                .HasColumnName("id");
             entity.Property(e => e.StudentId)
                 .HasColumnType("numeric(18, 0)")
                 .HasColumnName("student_id");
@@ -126,10 +134,12 @@ public partial class AssignmentDbContext : Microsoft.EntityFrameworkCore.DbConte
 
             entity.HasOne(d => d.Student).WithMany()
                 .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Students_Subjects_Student");
 
             entity.HasOne(d => d.Subject).WithMany()
                 .HasForeignKey(d => d.SubjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Students_Subjects_Subject");
         });
 
@@ -139,31 +149,34 @@ public partial class AssignmentDbContext : Microsoft.EntityFrameworkCore.DbConte
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnType("numeric(18, 0)");
+                .HasColumnType("numeric(18, 0)")
+                .HasColumnName("id");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
             entity.Property(e => e.Code)
                 .HasMaxLength(10)
                 .HasColumnName("code");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
+            entity.Property(e => e.ModifiedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("modified_by");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("modified_date");
             entity.Property(e => e.SubjectName)
                 .HasMaxLength(50)
                 .HasColumnName("subject_name");
             entity.Property(e => e.Teacher)
                 .HasColumnType("numeric(18, 0)")
                 .HasColumnName("teacher");
-            entity.Property(e => e.Active)
-                .HasColumnType("bit")
-                .HasColumnName("active");
-            entity.Property(e => e.CreatedBy)
-               .HasMaxLength(20)
-               .HasColumnName("created_by");
-            entity.Property(e => e.CreatedDate)
-                 .HasColumnType("smalldatetime")
-                 .HasColumnName("created_date");
-            entity.Property(e => e.ModifiedBy)
-                  .HasMaxLength(20)
-                  .HasColumnName("modified_by");
-            entity.Property(e => e.ModifiedDate)
-                .HasColumnType("smalldatetime")
-                .HasColumnName("modified_date");
 
             entity.HasOne(d => d.TeacherNavigation).WithMany(p => p.Subjects)
                 .HasForeignKey(d => d.Teacher)
@@ -176,26 +189,29 @@ public partial class AssignmentDbContext : Microsoft.EntityFrameworkCore.DbConte
 
             entity.Property(e => e.Id)
                 .ValueGeneratedOnAdd()
-                .HasColumnType("numeric(18, 0)");
+                .HasColumnType("numeric(18, 0)")
+                .HasColumnName("id");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("created_date");
+            entity.Property(e => e.ModifiedBy)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("modified_by");
+            entity.Property(e => e.ModifiedDate)
+                .HasColumnType("datetime")
+                .HasColumnName("modified_date");
             entity.Property(e => e.TeacherName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("teacher_name");
-            entity.Property(e => e.Active)
-                .HasColumnType("bit")
-                .HasColumnName("active");
-            entity.Property(e => e.CreatedBy)
-               .HasMaxLength(20)
-               .HasColumnName("created_by");
-            entity.Property(e => e.CreatedDate)
-                 .HasColumnType("smalldatetime")
-                 .HasColumnName("created_date");
-            entity.Property(e => e.ModifiedBy)
-                  .HasMaxLength(20)
-                  .HasColumnName("modified_by");
-            entity.Property(e => e.ModifiedDate)
-                .HasColumnType("smalldatetime")
-                .HasColumnName("modified_date");
         });
 
         OnModelCreatingPartial(modelBuilder);

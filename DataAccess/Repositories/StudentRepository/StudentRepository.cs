@@ -109,16 +109,33 @@ namespace DataAccess.Repositories.StudentRepository
 
         public async Task<List<StudentsSubjectDto>> AddStudentToSubjects(List<StudentsSubjectDto> studentsSubjects)
         {
-            //if (studentsSubjects == null || !studentsSubjects.Any())
-            //{
-            //    return BadRequest("No records to add.");
-            //}
-            List<StudentsSubject> studentsSubjectsData = new List<StudentsSubject>();
-            studentsSubjectsData = _mapper.Map<List<StudentsSubject>>(studentsSubjects);
-            await _dbContext.StudentsSubjects.AddRangeAsync(studentsSubjectsData);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
 
-            return _mapper.Map<List<StudentsSubjectDto>>(studentsSubjectsData);
+
+                List<StudentsSubject> studentsSubjectsData = new List<StudentsSubject>();
+                foreach (var item in studentsSubjects)
+                {
+                    StudentsSubject studentsSubject = new StudentsSubject();
+                    studentsSubject.StudentId = item.StudentId;
+                    studentsSubject.SubjectId = item.SubjectId;
+                    studentsSubject.Student = await _dbContext.Students.Where(a => a.Id == item.StudentId).FirstOrDefaultAsync();
+                    studentsSubject.Subject = await _dbContext.Subjects.Where(a => a.Id == item.SubjectId).FirstOrDefaultAsync();
+                    studentsSubject.Subject.TeacherNavigation = await _dbContext.Teachers.Where(a => a.Id == studentsSubject.Subject.Teacher).FirstOrDefaultAsync();
+                    studentsSubjectsData.Add(studentsSubject);
+                    //await _dbContext.StudentsSubjects.AddAsync(item);
+                }
+
+                await _dbContext.StudentsSubjects.AddRangeAsync(studentsSubjectsData);
+                await _dbContext.SaveChangesAsync();
+
+                return _mapper.Map<List<StudentsSubjectDto>>(studentsSubjectsData);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
     }

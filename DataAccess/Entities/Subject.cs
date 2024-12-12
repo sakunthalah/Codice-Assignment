@@ -8,6 +8,7 @@ namespace DataAccess.Entities;
 
 public partial class Subject : BaseDto
 {
+    [Key]
     [Column("id")]
     public decimal Id { get; set; }
 

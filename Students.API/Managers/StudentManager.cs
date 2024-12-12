@@ -176,10 +176,18 @@ namespace Students.API.Managers
             {
                 throw new UDBadRequesException("Invalid Request!");
             }
-            List<StudentsSubjectDto> studentsSubjectDtos = await _studentRepository.AddStudentToSubjects(studentsSubjects.studentsSubject);
-            StudentsSubjectResponseDto studentSubjectResponseDto = new StudentsSubjectResponseDto();
-            studentSubjectResponseDto.studentsSubject = _mapper.Map<List<StudentsSubjectDto>>(studentsSubjectDtos);
-            return new BaseResponse<StudentsSubjectResponseDto> { Success = true, Data = studentSubjectResponseDto, Message = "Added Successfully" };
+            try
+            {
+                List<StudentsSubjectDto> studentsSubjectDtos = await _studentRepository.AddStudentToSubjects(studentsSubjects.studentsSubject);
+                StudentsSubjectResponseDto studentSubjectResponseDto = new StudentsSubjectResponseDto();
+                studentSubjectResponseDto.studentsSubject = _mapper.Map<List<StudentsSubjectDto>>(studentsSubjectDtos);
+                return new BaseResponse<StudentsSubjectResponseDto> { Success = true, Data = studentSubjectResponseDto, Message = "Added Successfully" };
+            }
+            catch (Exception)
+            {
+
+                throw new Exception();
+            }
         }
     }
 }
